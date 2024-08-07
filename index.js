@@ -15,12 +15,12 @@ const biblicalQuotes = [
     '“Porque Deus amou o mundo de tal maneira que deu o seu Filho unigênito, para que todo aquele que nele crê não pereça, mas tenha a vida eterna.” - João 3:16',
     '“O Senhor é a minha força, e o meu cântico; ele me foi por salvação; ele é o meu Deus, e eu lhe farei uma habitação; ele é o Deus de meu pai, e eu o exaltarei.” - Êxodo 15:2',
     '“Não temas, porque eu estou contigo; não te assombres, porque eu sou teu Deus; eu te fortaleço, e te ajudo, e te sustento com a destra da minha justiça.” - Isaías 41:10',
-    // Adicione mais frases aqui
+    // Adicionar mais frases
 ];
 
 client.once('ready', () => {
     console.log('Bot is online!');
-    scheduleDailyMessage(); // Certifique-se de chamar a função para agendar a mensagem diária
+    scheduleDailyMessage(); // agendar a mensagem diária
 });
 
 client.on('messageCreate', async message => {
@@ -46,7 +46,7 @@ client.on('messageCreate', async message => {
         try {
             const temperature = await getTemperature(city);
             const randomQuote = biblicalQuotes[Math.floor(Math.random() * biblicalQuotes.length)];
-            const dayOfWeek = format(new Date(), 'eeee', { locale: ptBR }); // Obtém o dia da semana em português
+            const dayOfWeek = format(new Date(), 'eeee', { locale: ptBR }); // dia da semana em português
 
             const response = `\`\`\`Bom dia!🌞\n\nHoje é ${dayOfWeek} e faz ${temperature}ºC em ${city}.\n\n📖 ${randomQuote}\`\`\``;
             message.channel.send(response);
@@ -58,7 +58,7 @@ client.on('messageCreate', async message => {
 });
 
 async function getTemperature(city) {
-    // Coordenadas para Fortaleza. Você pode usar uma API de geocodificação para obter coordenadas de outras cidades.
+    // Coordenadas de Fortaleza
     const coordinates = {
         Fortaleza: { lat: -3.71722, lon: -38.54337 }
     };
@@ -75,7 +75,7 @@ async function getTemperature(city) {
 function scheduleDailyMessage() {
     cron.schedule('0 8 * * *', async () => {
         try {
-            const city = 'Fortaleza'; // Cidade fixa, você pode adaptar para ser dinâmica
+            const city = 'Fortaleza'; // Cidade fixa
             const temperature = await getTemperature(city);
             const randomQuote = biblicalQuotes[Math.floor(Math.random() * biblicalQuotes.length)];
             const dayOfWeek = format(new Date(), 'eeee', { locale: ptBR }); // Obtém o dia da semana em português
