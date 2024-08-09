@@ -152,10 +152,10 @@ client.on('messageCreate', async message => {
     }
 });
 
-if (message.channel.startsWith('/trecho')) {
+    if (message.content.startsWith('/trecho')) {
     const randomQuote = biblicalQuotes[Math.floor(Math.random() * biblicalQuotes.length)];
     message.channel.send(randomQuote);
-}
+    }
 
 async function getTemperature(city) {
     // Coordenadas de Fortaleza
