@@ -74,27 +74,18 @@ const commands = [
         description: 'Mostra os livros já lidos.'
     },
     {
-        name: 'clima',
-        description: 'Mostra a temperatura atual de uma cidade específica.',
-        options: [
-            {
-                name: 'cidade',
-                type: 3, // STRING type
-                description: 'O nome da cidade para obter o clima',
-                required: true
-            }
-        ]
-    },
-    {
         name: 'trecho',
         description: 'Envia um trecho bíblico aleatório.'
     },
     {
         name: 'livroatual',
         description: 'Envia um resumo do livro que estamos lendo.'
+    },
+    {
+        name: 'biblioteca',
+        description: 'Mostra uma lista de autores com livros disponíveis'
     }
 ];
-
 
 client.once('ready', async () => {
     console.log('Bot is online!');
@@ -103,6 +94,10 @@ client.once('ready', async () => {
     // Registrar comandos de barra
     const CLIENT_ID = client.user.id;
     const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_BOT_TOKEN);
+    const authors = {
+        "Ellen G. White": "<https://link-para-pasta-ellen-g-white>",
+        "C. S. Lewis": "<https://link-para-pasta-c-s-lewis>"
+    };
 
     try {
         console.log('comandos...');
@@ -136,51 +131,29 @@ client.on('interactionCreate', async interaction => {
     }
 
     if (commandName === 'livroatual') {
-        let response = "**Estamos lendo este livro:**\n";
-        livrotual.forEach((book, index) => {
-            response += `${index}. [${book.title}](${book.link})\n \n
-**📖 Título**: Cartas de um Diabo a seu Aprendiz
-**👨🏻 Autor**: C.S. Lewis
-**📅 Publicação**: Publicado originalmente em 1942
-**📄 Páginas**: 208
-**📁 [Baixar]**(<https://drive.google.com/file/d/18isNNkp1qRkm2SABcm5U1mgCjgu3jt8X/view?usp=drive_link>)
+        const response = `
+    **Estamos lendo este livro:**\n
+    **📖 Título**: Cartas de um Diabo a seu Aprendiz
+    **👨🏻 Autor**: C.S. Lewis
+    **📅 Publicação**: Publicado originalmente em 1942
+    **📄 Páginas**: 208
+    **📁 [Baixar](<https://drive.google.com/file/d/18isNNkp1qRkm2SABcm5U1mgCjgu3jt8X/view?usp=drive_link>)**
+    
+    **Contexto Histórico**: 
+    • Escrito durante a Segunda Guerra Mundial, o livro reflete as ansiedades e desafios espirituais daquela época.
+    • C.S. Lewis, um renomado acadêmico e apologista cristão, utilizou sua experiência pessoal e seu vasto conhecimento teológico para dar profundidade às suas personagens e aos temas abordados.
+    
+    **Temas Principais**:
+    • **Tentações e Pecados**: Através das cartas, Lewis explora como pequenos deslizes podem levar a grandes pecados, destacando a sutileza das tentações.
+    • **Natureza Humana**: A obra oferece uma visão profunda sobre a fraqueza e a resiliência da natureza humana.
+    • **Perspectiva Diabólica**: Ao adotar a perspectiva dos demônios, Lewis inverte a moralidade convencional, criando uma narrativa única e provocativa.
+    • **Cristianismo e Fé**: O livro é um exame profundo da fé cristã, suas provações e como a fé pode ser uma arma contra as tentações.
+    
+    **Curiosidades**:
+    • C.S. Lewis dedicou o livro a seu amigo e colega escritor J.R.R. Tolkien.
+    • O livro é frequentemente utilizado em estudos religiosos e em discussões sobre ética e moralidade.`;
 
-**Contexto Histórico**: 
-• Escrito durante a Segunda Guerra Mundial, o livro reflete as ansiedades e desafios espirituais daquela época.
-• C.S. Lewis, um renomado acadêmico e apologista cristão, utilizou sua experiência pessoal e seu vasto conhecimento teológico para dar profundidade às suas personagens e aos temas abordados.
-
-**Temas Principais**:
-• **Tentações e Pecados**: Através das cartas, Lewis explora como pequenos deslizes podem levar a grandes pecados, destacando a sutileza das tentações.
-• **Natureza Humana**: A obra oferece uma visão profunda sobre a fraqueza e a resiliência da natureza humana.
-• **Perspectiva Diabólica**: Ao adotar a perspectiva dos demônios, Lewis inverte a moralidade convencional, criando uma narrativa única e provocativa.
-• **Cristianismo e Fé**: O livro é um exame profundo da fé cristã, suas provações e como a fé pode ser uma arma contra as tentações.
-
-**Curiosidades**:
-• C.S. Lewis dedicou o livro a seu amigo e colega escritor J.R.R. Tolkien.
-• O livro é frequentemente utilizado em estudos religiosos e em discussões sobre ética e moralidade.`;
-        });
         await interaction.reply(response);
-    }
-
-
-    if (commandName === 'clima') {
-        const city = options.getString('cidade');
-
-        try {
-            const temperature = await getTemperature(city);
-            const dayOfWeek = format(new Date(), 'eeee', { locale: ptBR }); // dia da semana em português
-
-            const embed = new EmbedBuilder()
-                .setColor('#0099ff')
-                .setDescription(`Hoje é ${dayOfWeek} e faz ${temperature}ºC em ${city}.`)
-                .setTimestamp()
-                .setFooter({ text: 'Hikari' });
-
-            await interaction.reply({ embeds: [embed] });
-        } catch (error) {
-            console.error(error);
-            await interaction.reply('Desculpe, não consegui obter as informações do clima. Verifique se o nome da cidade está correto.');
-        }
     }
 
     if (commandName === 'trecho') {
@@ -194,6 +167,38 @@ client.on('interactionCreate', async interaction => {
             .setFooter({ text: 'Hikari' });
 
         await interaction.reply({ embeds: [embed] });
+    }
+
+    if (interaction.isCommand()) {
+        const { commandName } = interaction;
+
+        if (commandName === 'biblioteca') {
+            const menu = new StringSelectMenuBuilder()
+                .setCustomId('select-author')
+                .setPlaceholder('Escolha um autor')
+                .addOptions(
+                    Object.keys(authors).map(author => ({
+                        label: `Livros de ${author}`,
+                        value: author
+                    }))
+                );
+
+            const row = new ActionRowBuilder().addComponents(menu);
+
+            await interaction.reply({
+                content: 'Escolha um autor para ver os livros disponíveis:',
+                components: [row]
+            });
+        }
+    } else if (interaction.isSelectMenu()) {
+        const selectedAuthor = interaction.values[0];
+        const link = authors[selectedAuthor];
+
+        // Responde com o nome do autor e o link para a pasta
+        await interaction.update({
+            content: `Aqui estão os livros de [${selectedAuthor}](${link})`,
+            components: [] // Remove o menu suspenso após a seleção
+        });
     }
 });
 
@@ -235,6 +240,7 @@ async function getTemperature(city) {
     }
 }
 
+
 function scheduleDailyMessage() {
     cron.schedule('0 8 * * *', async () => {
         try {
@@ -256,10 +262,10 @@ function scheduleDailyMessage() {
             const channel = await client.channels.fetch(discordChannelId);
             channel.send({ embeds: [embed] });
         } catch (error) {
-            console.error('Erro ao enviar mensagem diária:', error);
+            console.error('Erro ao enviar a mensagem diária:', error);
         }
     }, {
-        timezone: "America/Fortaleza" // Define o fuso horário para Fortaleza
+        timezone: "America/Fortaleza" // Definindo o fuso horário para Fortaleza
     });
 }
 client.login(process.env.DISCORD_BOT_TOKEN);
