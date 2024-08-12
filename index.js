@@ -3,6 +3,9 @@ const fs = require('fs');
 const path = require('path');
 require('dotenv').config();
 const axios = require('axios');
+const cron = require('node-cron');
+const { format } = require('date-fns');
+const { ptBR } = require('date-fns/locale');
 
 // Carregar os versículos bíblicos do arquivo JSON
 const biblicalQuotes = JSON.parse(fs.readFileSync(path.join(__dirname, 'biblicalQuotes.json'), 'utf-8')).quotes;
@@ -22,13 +25,19 @@ const commands = [
     },
     {
         name: 'biblioteca',
-        description: 'Mostra uma lista de autores com livros disponíveis'
+        description: 'Mostra uma lista de categorias de livros disponíveis'
     }
 ];
 
-const authors = {
-    "Ellen G. White": "https://drive.google.com/drive/folders/1-iQzjDK3Acv4DuBeEJc0DMWrbCM0Vgd3?usp=drive_link",
-    "C. S. Lewis": "https://drive.google.com/drive/folders/1-4Nd3TmNOC-dPYY0YVm0AZL4rEKDOiAo?usp=drive_link"
+const categories = {
+    "Cristãos": {
+        "Ellen G. White": "https://drive.google.com/drive/folders/1-iQzjDK3Acv4DuBeEJc0DMWrbCM0Vgd3?usp=drive_link",
+        "C. S. Lewis": "https://drive.google.com/drive/folders/1-4Nd3TmNOC-dPYY0YVm0AZL4rEKDOiAo?usp=drive_link",
+        "Augusto Cury": "https://drive.google.com/drive/folders/15xDrTy8u7mfEn9Rc-IrwsaewsfBUMZTw?usp=drive_link"
+    },
+    "Outros": {
+        "Colleen Hoover": "https://drive.google.com/drive/folders/your-folder-id-here"
+    }
 };
 
 client.once('ready', async () => {
@@ -97,34 +106,62 @@ client.on('interactionCreate', async interaction => {
 
     if (commandName === 'biblioteca') {
         const menu = new StringSelectMenuBuilder()
-            .setCustomId('select-author')
-            .setPlaceholder('Escolha um autor')
+            .setCustomId('select-category')
+            .setPlaceholder('Escolha uma categoria')
             .addOptions(
-                Object.keys(authors).map(author => ({
-                    label: `Livros de ${author}`,
-                    value: author
+                Object.keys(categories).map(category => ({
+                    label: `Categoria: ${category}`,
+                    value: category
                 }))
             );
 
         const row = new ActionRowBuilder().addComponents(menu);
 
         await interaction.reply({
-            content: 'Escolha um autor para ver os livros disponíveis:',
+            content: 'Escolha uma categoria para ver os autores disponíveis:',
             components: [row]
         });
     }
 });
 
 client.on('interactionCreate', async interaction => {
-    if (interaction.isStringSelectMenu()) {
-        const selectedAuthor = interaction.values[0];
-        const link = authors[selectedAuthor];
+    if (interaction.isStringSelectMenu() && interaction.customId === 'select-category') {
+        const selectedCategory = interaction.values[0];
+        const selectedAuthors = categories[selectedCategory];
 
-        // Responde com o nome do autor e o link para a pasta
+        const authorMenu = new StringSelectMenuBuilder()
+            .setCustomId('select-author')
+            .setPlaceholder(`Escolha um autor de ${selectedCategory}`)
+            .addOptions(
+                Object.keys(selectedAuthors).map(author => ({
+                    label: `Livros de ${author}`,
+                    value: author
+                }))
+            );
+
+        const row = new ActionRowBuilder().addComponents(authorMenu);
+
         await interaction.update({
-            content: `Aqui estão os livros de [${selectedAuthor}](${link})`,
-            components: [] // Remove o menu suspenso após a seleção
+            content: 'Escolha um autor para ver os livros disponíveis:',
+            components: [row]
         });
+    } else if (interaction.isStringSelectMenu() && interaction.customId === 'select-author') {
+        const selectedAuthor = interaction.values[0];
+        const link = Object.entries(categories)
+            .flatMap(([categoryName, authors]) => Object.entries(authors))
+            .find(([author]) => author === selectedAuthor)?.[1]; // Corrigido aqui
+
+        if (link) {
+            await interaction.update({
+                content: `Aqui estão os livros de [${selectedAuthor}](${link})`,
+                components: [] // Remove o menu suspenso após a seleção
+            });
+        } else {
+            await interaction.update({
+                content: `Não foi possível encontrar livros para o autor ${selectedAuthor}.`,
+                components: [] // Remove o menu suspenso após a seleção
+            });
+        }
     }
 });
 
