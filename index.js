@@ -3,9 +3,6 @@ const fs = require('fs');
 const path = require('path');
 require('dotenv').config();
 const axios = require('axios');
-const cron = require('node-cron');
-const { format } = require('date-fns');
-const { ptBR } = require('date-fns/locale');
 
 // Carregar os versículos bíblicos do arquivo JSON
 const biblicalQuotes = JSON.parse(fs.readFileSync(path.join(__dirname, 'biblicalQuotes.json'), 'utf-8')).quotes;
@@ -14,21 +11,10 @@ const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBit
 
 const discordChannelId = process.env.DISCORD_CHANNEL_ID;
 
-const coordinates = {
-    "Fortaleza": { lat: -3.7172, lon: -38.5433 },
-    "São Paulo": { lat: -23.5505, lon: -46.6333 },
-    "Rio de Janeiro": { lat: -22.9068, lon: -43.1729 },
-    "Brasília": { lat: -15.7801, lon: -47.9292 }
-}
-
 const commands = [
     {
         name: 'lidos',
         description: 'Mostra os livros já lidos.'
-    },
-    {
-        name: 'trecho',
-        description: 'Envia um trecho bíblico aleatório.'
     },
     {
         name: 'livroatual',
@@ -47,7 +33,6 @@ const authors = {
 
 client.once('ready', async () => {
     console.log('Bot is online!');
-    scheduleDailyMessage(); // Agendar a mensagem diária
 
     // Registrar comandos de barra
     const CLIENT_ID = client.user.id;
@@ -68,7 +53,7 @@ client.once('ready', async () => {
 client.on('interactionCreate', async interaction => {
     if (!interaction.isCommand()) return;
 
-    const { commandName, options } = interaction;
+    const { commandName } = interaction;
 
     if (commandName === 'lidos') {
         const booksRead = [
@@ -142,60 +127,5 @@ client.on('interactionCreate', async interaction => {
         });
     }
 });
-
-let lastQuoteIndex = -1; // Evita que a mesma citação seja repetida em dias consecutivos
-
-function getRandomQuote() {
-    let newIndex;
-    do {
-        newIndex = Math.floor(Math.random() * biblicalQuotes.length);
-    } while (newIndex === lastQuoteIndex);
-    lastQuoteIndex = newIndex;
-    return biblicalQuotes[newIndex];
-}
-
-async function getTemperature(city) {
-    try {
-        // Verifique se o objeto 'coordinates' está definido e tem as coordenadas
-        if (!coordinates[city]) {
-            throw new Error(`Coordenadas para a cidade ${city} não encontradas.`);
-        }
-
-        const response = await axios.get(`https://api.open-meteo.com/v1/forecast`, {
-            params: {
-                latitude: coordinates[city].lat,
-                longitude: coordinates[city].lon,
-                current_weather: true
-            }
-        });
-        return response.data.current_weather.temperature;
-    } catch (error) {
-        console.error('Erro ao obter a temperatura:', error);
-        return 'Não disponível';
-    }
-}
-
-async function sendDailyMessage() {
-    const channel = await client.channels.fetch(discordChannelId);
-    if (!channel) return console.error('Canal não encontrado.');
-
-    const temperature = await getTemperature('Fortaleza');
-    const randomQuote = getRandomQuote();
-
-    const embed = new EmbedBuilder()
-        .setColor('#0099ff')
-        .setTitle('Mensagem Diária')
-        .setDescription(`**Temperatura atual em Fortaleza:** ${temperature}°C\n\n**Trecho Bíblico:**\n${randomQuote}`)
-        .setTimestamp()
-        .setFooter({ text: 'Hikari' });
-
-    await channel.send({ embeds: [embed] });
-}
-
-function scheduleDailyMessage() {
-    cron.schedule('0 8 * * *', sendDailyMessage, {
-        timezone: 'America/Fortaleza',
-    });
-}
 
 client.login(process.env.DISCORD_BOT_TOKEN);
