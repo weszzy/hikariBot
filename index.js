@@ -7,7 +7,13 @@ const cron = require('node-cron');
 const { format } = require('date-fns');
 const { ptBR } = require('date-fns/locale');
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
+const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildVoiceStates,  GatewayIntentBits.GuildMembers] });
+
+
+const voiceChannelId = '1261384009913471108';
+const presenterRoleId = '1268317622424830144';
+const textChannelId = '1261384009913471107';
+
 
 const discordChannelId = process.env.DISCORD_CHANNEL_ID;
 
@@ -60,6 +66,21 @@ client.once('ready', async () => {
         console.log('Comandos registrados com sucesso.');
     } catch (error) {
         console.error('Erro ao registrar comandos:', error);
+    }
+});
+
+client.on('voiceStateUpdate', (oldState, newState) => {
+    // Verifica se o usuário entrou no canal de voz específico
+    if (newState.channelId === voiceChannelId && !oldState.channelId) {
+        const member = newState.member;
+
+        // Verifica se o membro possui o cargo de apresentador
+        if (member.roles.cache.has(presenterRoleId)) {
+            const textChannel = client.channels.cache.get(textChannelId);
+            if (textChannel) {
+                textChannel.send('O apresentador está pronto! Já vamos começar, venham! ||@everyone||');
+            }
+        }
     }
 });
 
