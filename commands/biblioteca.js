@@ -1,3 +1,4 @@
+// biblioteca.js
 const { ActionRowBuilder, StringSelectMenuBuilder } = require('discord.js');
 const categories = require('../config/categories');
 
@@ -15,7 +16,7 @@ module.exports = {
 
         const row = new ActionRowBuilder().addComponents(menu);
 
-        await interaction.reply({
+        await interaction.editReply({
             content: 'Escolha uma categoria para ver os autores disponíveis:',
             components: [row]
         });
