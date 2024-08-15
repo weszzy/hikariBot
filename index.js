@@ -1,9 +1,9 @@
+// index.js
 const { Client, GatewayIntentBits } = require('discord.js');
 require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
-const { Dropbox } = require('dropbox'); // Importa o SDK do Dropbox
-const fetch = require('node-fetch'); // Adiciona node-fetch como required para o Dropbox SDK
+const { google } = require('googleapis'); // Para interagir com Google Drive
 
 const client = new Client({
     intents: [
@@ -15,10 +15,18 @@ const client = new Client({
     ]
 });
 
-const dbx = new Dropbox({ accessToken: process.env.DROPBOX_ACCESS_TOKEN, fetch }); // Inicializa o Dropbox com o token
+// Configuração do OAuth2 para Google Drive
+const oauth2Client = new google.auth.OAuth2(
+    process.env.GOOGLE_CLIENT_ID,
+    process.env.GOOGLE_CLIENT_SECRET,
+    process.env.REDIRECT_URI
+);
 
-// Exporta a instância do Dropbox para ser usada em outros arquivos
-module.exports = { client, dbx };
+// Define o token de atualização
+oauth2Client.setCredentials({ refresh_token: process.env.GOOGLE_REFRESH_TOKEN });
+
+// Exporta a instância do cliente e o cliente OAuth2
+module.exports = { client, oauth2Client };
 
 // Carregar eventos
 const eventsPath = path.join(__dirname, 'events');
