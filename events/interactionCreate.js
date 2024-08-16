@@ -64,8 +64,6 @@ async function getSharedLink(fileId) {
 }
 
 // Importa as partes do código
-const lidos = require('../commands/lidos');
-const livroatual = require('../commands/livroatual');
 const biblioteca = require('../commands/biblioteca');
 const categories = require('../config/categories');
 
@@ -73,19 +71,15 @@ module.exports = async (client, interaction) => {
     try {
         if (interaction.type === InteractionType.ApplicationCommand) {
             // Adie a resposta para o comando
-            await interaction.deferReply();
+            if (!interaction.deferred) await interaction.deferReply();
 
             // Verifique o comando e execute-o
             if (interaction.commandName === 'biblioteca') {
                 await biblioteca.execute(interaction);
-            } else if (interaction.commandName === 'lidos') {
-                await lidos.execute(interaction);
-            } else if (interaction.commandName === 'livroatual') {
-                await livroatual.execute(interaction);
             }
         } else if (interaction.isStringSelectMenu()) {
             // Adie a resposta para a interação do menu
-            await interaction.deferUpdate();
+            if (!interaction.deferred) await interaction.deferUpdate();
 
             if (interaction.customId === 'select-category') {
                 const selectedCategory = interaction.values[0];
@@ -154,7 +148,6 @@ module.exports = async (client, interaction) => {
                                 const sharedLink = await getSharedLink(file.id);
                                 console.log(`Link gerado para o arquivo ${file.name}: ${sharedLink}`);
                                 return `[${file.name}](<${sharedLink}>)`;
-;
                             } catch (error) {
                                 console.error('Erro ao gerar link compartilhável:', error);
                                 return `Erro ao gerar link para ${file.name}`;
@@ -189,6 +182,7 @@ module.exports = async (client, interaction) => {
                         await interaction.followUp({ content: message });
                     }
 
+                    // Edita a resposta original após todos os follow-ups
                     await interaction.editReply({
                         content: 'Lista de livros carregada com sucesso!',
                         components: []
@@ -207,7 +201,9 @@ module.exports = async (client, interaction) => {
         console.error('Erro na interação:', error);
 
         if (!interaction.replied && !interaction.deferred) {
-            await interaction.followUp({ content: 'Ocorreu um erro ao processar sua solicitação.' });
+            await interaction.reply({ content: 'Ocorreu um erro ao processar sua solicitação.' });
+        } else if (interaction.deferred) {
+            await interaction.editReply({ content: 'Ocorreu um erro ao processar sua solicitação.' });
         }
     }
 };
