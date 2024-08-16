@@ -78,7 +78,7 @@ O cache é armazenado em **./cache/sharedLinksCache.json**. Isso melhora a perfo
 ## 📝 Licença
 
  
-Licenciado sob a **[Licença MIT](https://choosealicense.com/licenses/mit/)**. 
+Licenciado sob a **[Licença MIT](https://github.com/weszzy/hikariBot/blob/main/LICENSE)**. 
 
 Sinta-se livre para usá-lo e modificá-lo conforme necessário.
 
