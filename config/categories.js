@@ -14,6 +14,7 @@ const categories = {
     },
     "Outros": {
         "Alyson Noel": "https://drive.google.com/drive/u/3/folders/1KRdLUPB_7010ArAbJpKLicl1VD8EABw3",
+        "Clarice Lispector": "https://drive.google.com/drive/u/3/folders/1B8M8mA0DFTqpg4b-LZYpt8aDVuCGlUpI",
         "Colleen Hoover": "https://drive.google.com/drive/folders/17PRzxNa4y5Hb9jB_YZ2m0tnhKd5EptwN?usp=drive_link",
         "Dolly Alderton": "https://drive.google.com/drive/u/3/folders/15SaZcVttNL0s-M80gmWfZXU0Wth-Z7Wk",
         "Fiódor Dostoiévski": "https://drive.google.com/drive/folders/18nsKzDMePQ2GNSyHFwN7JXqeQhPpKF--?usp=drive_link",
