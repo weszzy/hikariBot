@@ -1,5 +1,18 @@
 
-# 📚 hikariBot - Clube do Livro
+# 📚 hikariBot
+
+<div justify-content: center;>
+
+<img src="https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E">
+<img src="https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white">
+<img src="https://img.shields.io/badge/Discord-7289DA?style=for-the-badge&logo=discord&logoColor=white">
+<img src="https://img.shields.io/badge/GIT-E44C30?style=for-the-badge&logo=git&logoColor=white">
+<img src="https://img.shields.io/badge/Google%20Drive-4285F4?style=for-the-badge&logo=googledrive&logoColor=white">
+
+
+
+
+</div>
 
 Projetado para gerenciar uma biblioteca de livros digitais dentro de um servidor de Discord. Esse bot permite que os usuários explorem uma variedade de categorias e autores, acessando os livros diretamente do Google Drive.
 
