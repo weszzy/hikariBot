@@ -1,7 +1,8 @@
+<div align="center">
 
-# 📚 hikariBot
+<img height="180" alt="hikariBot's logo" src="https://i.imgur.com/SwQu4DR.jpg">
 
-<div justify-content: center;>
+# 📚 hikariBot 
 
 <img src="https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E">
 <img src="https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white">
