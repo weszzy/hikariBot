@@ -12,7 +12,7 @@ const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_BOT_TOKEN)
             Routes.applicationCommands(CLIENT_ID),
             { body: commands },
         );
-        console.log('Comandos registrados com sucesso.');
+        console.log('Comandos OK.');
     } catch (error) {
         console.error('Erro ao registrar comandos:', error);
     }
