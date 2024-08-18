@@ -1,9 +1,43 @@
 // interactionCreate.js
 const { InteractionType, ActionRowBuilder, StringSelectMenuBuilder } = require('discord.js');
+const { getBookRecommendation } = require('../commands/recommendation');
 const { google } = require('googleapis');
 const fs = require('fs');
 require('dotenv').config();
 const { oauth2Client } = require('../index');
+
+const books = google.books({
+    version: 'v1',
+    auth: process.env.GOOGLE_API_KEY
+});
+
+async function fetchBookRecommendation(keywords, minRating) {
+    try {
+        const response = await books.volumes.list({
+            q: keywords.join(' '),
+            orderBy: 'relevance',
+            maxResults: 10
+        });
+
+        const booksData = response.data.items;
+        if (!booksData) return null;
+
+        // Filtrar os livros que possuem uma avaliação mínima
+        const recommendedBooks = booksData.filter(book => {
+            const rating = book.volumeInfo.averageRating || 0;
+            return rating >= minRating;
+        });
+
+        if (recommendedBooks.length === 0) return null;
+
+        // Selecionar um livro aleatório dentre os que passaram no filtro
+        const randomBook = recommendedBooks[Math.floor(Math.random() * recommendedBooks.length)];
+        return randomBook.volumeInfo;
+    } catch (error) {
+        console.error('Erro ao buscar recomendação de livro:', error);
+        return null;
+    }
+}
 
 // Caminho do arquivo de cache
 const cacheFilePath = './cache/sharedLinksCache.json';
@@ -73,9 +107,27 @@ module.exports = async (client, interaction) => {
             // Adia a resposta para o comando
             if (!interaction.deferred) await interaction.deferReply();
 
-            // Verifica o comando e o executa
             if (interaction.commandName === 'biblioteca') {
                 await biblioteca.execute(interaction);
+            } else if (interaction.commandName === 'recomendacao') {
+                const keywords = ['Cristão', 'Adventista', 'Evangélico'];
+                const minRating = 4; // Definindo uma avaliação mínima de 4 estrelas
+                const excludeKeywords = ['Ateu', 'Católico']; // Palavras-chave a serem excluídas
+
+                const book = await fetchBookRecommendation(keywords, minRating, excludeKeywords);
+                if (!book) {
+                    if (!interaction.replied && !interaction.deferred) {
+                        await interaction.reply('Não foi possível encontrar uma recomendação de livro neste momento.');
+                    } else if (interaction.deferred) {
+                        await interaction.editReply('Não foi possível encontrar uma recomendação de livro neste momento.');
+                    }
+                } else {
+                    if (!interaction.replied && !interaction.deferred) {
+                        await interaction.reply(`Recomendação da semana: **${book.title}** por ${book.authors.join(', ')}\nAvaliação: ${book.averageRating}/5\n[Mais detalhes](${book.infoLink})`);
+                    } else if (interaction.deferred) {
+                        await interaction.editReply(`Recomendação da semana: **${book.title}** por ${book.authors.join(', ')}\nAvaliação: ${book.averageRating}/5\n[Mais detalhes](${book.infoLink})`);
+                    }
+                }
             }
         } else if (interaction.isStringSelectMenu()) {
             // Adia a resposta para a interação do menu
@@ -155,9 +207,6 @@ module.exports = async (client, interaction) => {
                         })
                     );
 
-                    // Verificação adicional de links gerados
-                    console.log('Links gerados:', files);
-
                     // Dividir os arquivos em mensagens menores se necessário
                     const messages = [];
                     let currentMessage = `Aqui estão os livros de **${selectedAuthor}**:\n\n`;
@@ -173,9 +222,6 @@ module.exports = async (client, interaction) => {
                     if (currentMessage.length > 0) {
                         messages.push(currentMessage);
                     }
-
-                    // Verificação adicional de mensagens geradas
-                    console.log('Mensagens a serem enviadas:', messages);
 
                     // Enviar as mensagens
                     for (const message of messages) {
@@ -207,3 +253,4 @@ module.exports = async (client, interaction) => {
         }
     }
 };
+
