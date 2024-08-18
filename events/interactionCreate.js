@@ -70,15 +70,15 @@ const categories = require('../config/categories');
 module.exports = async (client, interaction) => {
     try {
         if (interaction.type === InteractionType.ApplicationCommand) {
-            // Adie a resposta para o comando
+            // Adia a resposta para o comando
             if (!interaction.deferred) await interaction.deferReply();
 
-            // Verifique o comando e execute-o
+            // Verifica o comando e o executa
             if (interaction.commandName === 'biblioteca') {
                 await biblioteca.execute(interaction);
             }
         } else if (interaction.isStringSelectMenu()) {
-            // Adie a resposta para a interação do menu
+            // Adia a resposta para a interação do menu
             if (!interaction.deferred) await interaction.deferUpdate();
 
             if (interaction.customId === 'select-category') {
