@@ -28,43 +28,42 @@ function saveCacheRecom() {
 async function handleRecomendacaoCommand(interaction) {
     const books = google.books({ version: 'v1', auth: process.env.GOOGLE_API_KEY });
 
-    const keywords = [''];
-    const minRating = 5; // Definindo uma avaliação mínima de 5 estrelas
-    const excludeKeywords = ['-Ateu', '-Católico']; // Palavras-chave a serem excluídas
+    const keywords = ['livros populares', 'mais vendido', 'evangélico', 'adventista', 'bestseller', 'intrinseca', 'sextante', 'Penguin Clássicos']; // Pode ajustar para incluir mais variações
+    const minRating = 4; // Reduzido para ampliar o número de livros
+    const excludeKeywords = '-Ateu -Católico'; // Palavras-chave a serem excluídas
+
+    let startIndex = 0;
+    const maxResults = 40;
+    let booksData = [];
 
     try {
-        const res = await books.volumes.list({
-            q: keywords.join(' '),
-            orderBy: 'relevance',
-            maxResults: 40
-        });
+        while (booksData.length === 0 && startIndex < 200) { // Limite de 200 para evitar loops infinitos
+            const query = keywords.length > 0 ? keywords.join(' ') : 'livros';
+            const res = await books.volumes.list({
+                q: `${query} ${excludeKeywords}`,
+                orderBy: 'relevance',
+                maxResults: maxResults,
+                startIndex: startIndex,
+                langRestrict: 'pt-BR', // Restrição para livros em português do Brasil
+            });
 
-        const booksData = res.data.items;
-        if (!booksData) {
-            throw new Error('Nenhum livro encontrado');
+            booksData = res.data.items ? res.data.items.filter(book => !recommendedBooksCache.has(book.id)) : [];
+            startIndex += maxResults;
         }
 
-        // Filtrar os livros que possuem uma avaliação mínima e que ainda não foram recomendados
-        const recommendedBooks = booksData.filter(book => {
-            const rating = book.volumeInfo.averageRating || 0;
-            return rating >= minRating && !recommendedBooksCache.has(book.id);
-        });
-
-        if (recommendedBooks.length === 0) {
-            // Limpa o cache e reinicia se todos os livros foram recomendados
+        if (!booksData || booksData.length === 0) {
             recommendedBooksCache.clear();
             saveCacheRecom();
             await interaction.editReply('Todos os livros já foram recomendados. Reiniciando a lista!');
             return;
         }
 
-        // Selecionar um livro aleatório dentre os que passaram no filtro
-        const randomBook = recommendedBooks[Math.floor(Math.random() * recommendedBooks.length)];
-        recommendedBooksCache.add(randomBook.id); // Adiciona o livro ao cache
-        saveCacheRecom(); // Salva o cache atualizado
+        const randomBook = booksData[Math.floor(Math.random() * booksData.length)];
+        recommendedBooksCache.add(randomBook.id);
+        saveCacheRecom();
 
         const bookInfo = formatBookInfo(randomBook.volumeInfo);
-        await interaction.editReply({ content: `📚 Recomendação do hikariBot:\n\n${bookInfo}` });
+        await interaction.editReply({ content: `📚 Recomendação aleatória:\n\n${bookInfo}` });
 
     } catch (error) {
         console.error('Erro ao buscar recomendação de livro:', error);
@@ -73,12 +72,16 @@ async function handleRecomendacaoCommand(interaction) {
 }
 
 function formatBookInfo(volumeInfo) {
-    const title = volumeInfo.title;
-    const authors = volumeInfo.authors ? volumeInfo.authors.join(', ') : 'Desconhecido';
-    const description = volumeInfo.description ? volumeInfo.description.substring(0, 150) + '...' : 'Descrição não disponível';
-    const link = volumeInfo.infoLink;
+    const title = volumeInfo.title || 'Título não disponível';
+    const authors = volumeInfo.authors ? volumeInfo.authors.join(', ') : 'Autor(es) não disponível';
+    const description = volumeInfo.description ? volumeInfo.description.substring(0, 300) + '...' : 'Descrição não disponível';
+    const link = volumeInfo.previewLink || volumeInfo.infoLink || 'Link não disponível';
 
     return `**${title}**\n👥 Autores: ${authors}\n📖 ${description}\n🔗 Mais informações: [Link](${link})`;
 }
+
+
+
+
 
 module.exports = { handleRecomendacaoCommand };
