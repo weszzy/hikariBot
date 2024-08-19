@@ -1,48 +1,14 @@
-// interactionCreate.js
 const { InteractionType, ActionRowBuilder, StringSelectMenuBuilder } = require('discord.js');
-const { getBookRecommendation } = require('../commands/recommendation');
+const { handleRecomendacaoCommand } = require('../commands/recomendacaoCommand');
+const biblioteca = require('../commands/biblioteca');
+const categories = require('../config/categories');
 const { google } = require('googleapis');
 const fs = require('fs');
 require('dotenv').config();
 const { oauth2Client } = require('../index');
 
-const books = google.books({
-    version: 'v1',
-    auth: process.env.GOOGLE_API_KEY
-});
-
-async function fetchBookRecommendation(keywords, minRating) {
-    try {
-        const response = await books.volumes.list({
-            q: keywords.join(' '),
-            orderBy: 'relevance',
-            maxResults: 10
-        });
-
-        const booksData = response.data.items;
-        if (!booksData) return null;
-
-        // Filtrar os livros que possuem uma avaliação mínima
-        const recommendedBooks = booksData.filter(book => {
-            const rating = book.volumeInfo.averageRating || 0;
-            return rating >= minRating;
-        });
-
-        if (recommendedBooks.length === 0) return null;
-
-        // Selecionar um livro aleatório dentre os que passaram no filtro
-        const randomBook = recommendedBooks[Math.floor(Math.random() * recommendedBooks.length)];
-        return randomBook.volumeInfo;
-    } catch (error) {
-        console.error('Erro ao buscar recomendação de livro:', error);
-        return null;
-    }
-}
-
-// Caminho do arquivo de cache
-const cacheFilePath = './cache/sharedLinksCache.json';
-
 // Inicializa o cache de links compartilhados
+const cacheFilePath = './cache/sharedLinksCache.json';
 let sharedLinksCache = {};
 if (fs.existsSync(cacheFilePath)) {
     try {
@@ -97,10 +63,6 @@ async function getSharedLink(fileId) {
     }
 }
 
-// Importa as partes do código
-const biblioteca = require('../commands/biblioteca');
-const categories = require('../config/categories');
-
 module.exports = async (client, interaction) => {
     try {
         if (interaction.type === InteractionType.ApplicationCommand) {
@@ -110,24 +72,7 @@ module.exports = async (client, interaction) => {
             if (interaction.commandName === 'biblioteca') {
                 await biblioteca.execute(interaction);
             } else if (interaction.commandName === 'recomendacao') {
-                const keywords = ['Cristão', 'Adventista', 'Evangélico'];
-                const minRating = 4; // Definindo uma avaliação mínima de 4 estrelas
-                const excludeKeywords = ['Ateu', 'Católico']; // Palavras-chave a serem excluídas
-
-                const book = await fetchBookRecommendation(keywords, minRating, excludeKeywords);
-                if (!book) {
-                    if (!interaction.replied && !interaction.deferred) {
-                        await interaction.reply('Não foi possível encontrar uma recomendação de livro neste momento.');
-                    } else if (interaction.deferred) {
-                        await interaction.editReply('Não foi possível encontrar uma recomendação de livro neste momento.');
-                    }
-                } else {
-                    if (!interaction.replied && !interaction.deferred) {
-                        await interaction.reply(`Recomendação da semana: **${book.title}** por ${book.authors.join(', ')}\nAvaliação: ${book.averageRating}/5\n[Mais detalhes](${book.infoLink})`);
-                    } else if (interaction.deferred) {
-                        await interaction.editReply(`Recomendação da semana: **${book.title}** por ${book.authors.join(', ')}\nAvaliação: ${book.averageRating}/5\n[Mais detalhes](${book.infoLink})`);
-                    }
-                }
+                await handleRecomendacaoCommand(interaction);
             }
         } else if (interaction.isStringSelectMenu()) {
             // Adia a resposta para a interação do menu
@@ -244,7 +189,7 @@ module.exports = async (client, interaction) => {
             }
         }
     } catch (error) {
-        console.error('Erro na interação:', error);
+        console.error('Erro ao lidar com a interação:', error);
 
         if (!interaction.replied && !interaction.deferred) {
             await interaction.reply({ content: 'Ocorreu um erro ao processar sua solicitação.' });
@@ -253,4 +198,3 @@ module.exports = async (client, interaction) => {
         }
     }
 };
-
