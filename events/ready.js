@@ -22,7 +22,22 @@ module.exports = async (client) => {
         if (!book) {
             await channel.send('Não foi possível encontrar uma recomendação de livro nesta semana.');
         } else {
-            await channel.send(`Recomendação da semana: **${book.title}** por ${book.authors.join(', ')}\nAvaliação: ${book.averageRating}/5\n[Mais detalhes](${book.infoLink})`);
+            await channel.send({
+                embeds: [{
+                    title: `📚 Recomendação da Semana: ${book.title}`,
+                    description: book.description,
+                    url: book.infoLink,
+                    color: 0x3498db,
+                    fields: [
+                        { name: 'Autor(es)', value: book.authors.join(', '), inline: true },
+                        { name: 'Avaliação', value: `${book.averageRating}/5`, inline: true },
+                        { name: 'Categorias', value: book.categories ? book.categories.join(', ') : 'Não categorizado', inline: true },
+                    ],
+                    footer: {
+                        text: `Publicado por ${book.publisher || 'Desconhecido'} em ${book.publishedDate || 'Data desconhecida'}`
+                    }
+                }]
+            });
         }
     });
 };
