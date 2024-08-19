@@ -1,4 +1,8 @@
 const categories = {
+    "Autoajuda": {
+        "Autoajuda: melhores": "",
+    },
+    
     "Cristãos": {
         "Augusto Cury": "",
         "Ellen G. White": "",
@@ -25,7 +29,7 @@ const categories = {
         "Osamu Dazai": "",
         "Rupi Kaur": "",
         "Sarah J. Maas": "",
-    }
+    },
 };
 
 module.exports = categories;
