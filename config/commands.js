@@ -5,7 +5,7 @@ const commands = [
     },
     {
         name: 'recomendacao',
-        description: 'Receba uma recomendação de um livro 5⭐',
+        description: 'Receba uma recomendação aleatória',
     }
 ];
 
