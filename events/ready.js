@@ -5,17 +5,6 @@ module.exports = async (client) => {
     console.log('Estamos ON!');
     require('../app'); // Registra comandos ao ficar online
 
-    // Define o Rich Presence
-    client.user.setPresence({
-        activities: [
-            {
-                name: 'Lendo a Bíblia 📚', // Nome da atividade
-                type: 'Playing', // 
-            }
-        ],
-        status: 'online' // Status do bot
-    });
-
     const keywords = ['cristão', 'adventista', 'evangélico'];
     const excludeKeywords = '-ateu -católico -Bittencourt -homoafetivo';
     const minRating = 4;
