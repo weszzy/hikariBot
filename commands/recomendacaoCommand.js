@@ -28,8 +28,8 @@ function saveCacheRecom() {
 async function handleRecomendacaoCommand(interaction) {
     const books = google.books({ version: 'v1', auth: process.env.GOOGLE_API_KEY });
 
-    const keywords = ['Cristão'];
-    const minRating = 4; // Definindo uma avaliação mínima de 4 estrelas
+    const keywords = [''];
+    const minRating = 5; // Definindo uma avaliação mínima de 5 estrelas
     const excludeKeywords = ['-Ateu', '-Católico']; // Palavras-chave a serem excluídas
 
     try {
@@ -64,7 +64,7 @@ async function handleRecomendacaoCommand(interaction) {
         saveCacheRecom(); // Salva o cache atualizado
 
         const bookInfo = formatBookInfo(randomBook.volumeInfo);
-        await interaction.editReply({ content: `📚 Recomendação da semana:\n\n${bookInfo}` });
+        await interaction.editReply({ content: `📚 Recomendação do hikariBot:\n\n${bookInfo}` });
 
     } catch (error) {
         console.error('Erro ao buscar recomendação de livro:', error);

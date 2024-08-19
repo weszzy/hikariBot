@@ -28,7 +28,7 @@ function saveCacheRecom() {
 async function getBookRecommendation(interaction) {
     const books = google.books({ version: 'v1', auth: process.env.GOOGLE_API_KEY });
 
-    const includeKeywords = 'Cristão';
+    const includeKeywords = '';
     const excludeKeywords = '-ateu -católico -Bittencourt -homoafetivo';
 
     try {
