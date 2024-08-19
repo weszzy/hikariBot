@@ -1,15 +1,24 @@
 const categories = {
+    "Área da Programação": {
+        "Arquitetura de Software": "",
+        "Algoritmos e Estruturas de Dados": "",
+        "Cultura Organizacional": "",
+        "Data Science": "",
+        "Desenvolvimento Ágil": "",
+        "DevOps": "",
+        "Gestão de Equipe": "",
+        "Padrões e Design de Software": "",
+        "Preparação para Programação": "",
+    },
     "Autoajuda": {
         "Autoajuda: melhores": "",
     },
-    
     "Cristãos": {
         "Augusto Cury": "",
         "Ellen G. White": "",
         "C. S. Lewis": "",
         "Michelson Borges": "",
         "Rick Warren": ""
-
     },
     "Brasileiros": {
         "Ana Suy": "",
