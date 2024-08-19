@@ -5,9 +5,9 @@ module.exports = async (client) => {
     console.log('Estamos ON!');
     require('../app'); // Registra comandos ao ficar online
 
-    const keywords = ['cristão', 'adventista', 'evangélico'];
+    const keywords = ['', '', ''];
     const excludeKeywords = '-ateu -católico -Bittencourt -homoafetivo';
-    const minRating = 4;
+    const minRating = 5;
     const channelId = process.env.CANAL_RECOMENDACOES;
 
     // Agendar o envio da recomendação semanal para o canal de recomendações
