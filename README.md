@@ -11,12 +11,17 @@
 <img src="https://img.shields.io/badge/Google%20Drive-4285F4?style=for-the-badge&logo=googledrive&logoColor=white">
 <img src="https://img.shields.io/badge/Wikipedia-%23000000.svg?style=for-the-badge&logo=wikipedia&logoColor=white">
 <img src="https://i.imgur.com/dQ9cEjM.png" height="27px">
+</div>
 
+<br>
 
+<div align="center">
+
+O hikariBot foi desenvolvido para gerenciar uma biblioteca de livros em servidores Discord. Permite explorar diversos livros disponíveis, além de outras funções como recomendações, bíblia e informações sobre autores.
 
 </div>
 
-O hikariBot foi desenvolvido para gerenciar uma biblioteca de livros(digitais) em servidores Discord. Permite explorar diversos livros disponíveis, além de outras funções como recomendações, bíblia e informações sobre autores.
+
 
 
 ## 🚀 Funcionalidades
