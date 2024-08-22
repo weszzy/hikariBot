@@ -1,8 +1,10 @@
-const { google } = require('googleapis');
+const { SlashCommandBuilder } = require('@discordjs/builders');
+const { EmbedBuilder } = require('discord.js');
+const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
+const { google } = require('googleapis');
 
-// Caminho do arquivo de cache
 const cacheFilePath = path.resolve(__dirname, '../cache/recommendedBooksCache.json');
 
 // Inicializa o cache de livros recomendados
@@ -25,26 +27,37 @@ function saveCacheRecom() {
     fs.writeFileSync(cacheFilePath, JSON.stringify([...recommendedBooksCache]), 'utf-8');
 }
 
+// Função principal para lidar com o comando de recomendação
 async function handleRecomendacaoCommand(interaction) {
     const books = google.books({ version: 'v1', auth: process.env.GOOGLE_API_KEY });
 
-    const keywords = ['livros populares', 'mais vendido', 'evangélico', 'adventista', 'bestseller', 'intrinseca', 'sextante', 'Penguin Clássicos']; // Pode ajustar para incluir mais variações
-    const minRating = 4; // Reduzido para ampliar o número de livros
-    const excludeKeywords = '-Ateu -Católico'; // Palavras-chave a serem excluídas
+    const keywords = [
+        'livros populares',
+        'evangélico',
+        'adventista',
+        'cristão',
+        'jesus',
+        'cristo',
+    ];
+    const excludeKeywords = [
+        '-Ateu', 
+        '-Católico' 
+    ];
 
     let startIndex = 0;
     const maxResults = 40;
     let booksData = [];
 
     try {
-        while (booksData.length === 0 && startIndex < 200) { // Limite de 200 para evitar loops infinitos
-            const query = keywords.length > 0 ? keywords.join(' ') : 'livros';
+        while (booksData.length === 0 && startIndex < 200) {
+            // Construir a consulta com OR entre as palavras-chave
+            const query = keywords.map(keyword => `title:${keyword}`).join(' OR ') + ` ${excludeKeywords}`;
             const res = await books.volumes.list({
-                q: `${query} ${excludeKeywords}`,
+                q: query,
                 orderBy: 'relevance',
                 maxResults: maxResults,
                 startIndex: startIndex,
-                langRestrict: 'pt-BR', // Restrição para livros em português do Brasil
+                langRestrict: 'pt-BR',
             });
 
             booksData = res.data.items ? res.data.items.filter(book => !recommendedBooksCache.has(book.id)) : [];
@@ -80,8 +93,13 @@ function formatBookInfo(volumeInfo) {
     return `**${title}**\n👥 Autores: ${authors}\n📖 ${description}\n🔗 Mais informações: [Link](${link})`;
 }
 
+module.exports = {
+    handleRecomendacaoCommand,
+    data: new SlashCommandBuilder()
+        .setName('recomendacao')
+        .setDescription('Enviamos um livro aleatório'),
 
-
-
-
-module.exports = { handleRecomendacaoCommand };
+    async execute(interaction) {
+        await handleRecomendacaoCommand(interaction);
+    }
+};
