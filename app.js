@@ -5,6 +5,7 @@ const { commands } = require('./config/commands');
 const CLIENT_ID = process.env.CLIENT_ID;
 const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_BOT_TOKEN);
 
+
 (async () => {
     try {
         console.log('Registrando comandos...');
