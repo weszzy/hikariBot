@@ -1,5 +1,7 @@
 const { InteractionType, ActionRowBuilder, StringSelectMenuBuilder } = require('discord.js');
 const { handleRecomendacaoCommand } = require('../commands/recomendacaoCommand');
+const { handleAutorCommand } = require('../commands/autorCommand');
+const { execute: handleBibliaCommand } = require('../commands/bibliaCommand'); // Correção aqui
 const biblioteca = require('../commands/biblioteca');
 const categories = require('../config/categories');
 const { google } = require('googleapis');
@@ -66,13 +68,22 @@ async function getSharedLink(fileId) {
 module.exports = async (client, interaction) => {
     try {
         if (interaction.type === InteractionType.ApplicationCommand) {
-            // Adia a resposta para o comando
-            if (!interaction.deferred) await interaction.deferReply();
-
-            if (interaction.commandName === 'biblioteca') {
-                await biblioteca.execute(interaction);
-            } else if (interaction.commandName === 'recomendacao') {
-                await handleRecomendacaoCommand(interaction);
+            // Adia a resposta para o comando, garantindo que só será feito uma vez
+            if (interaction.type === InteractionType.ApplicationCommand) {
+                // Verifique se a resposta já foi adiada
+                if (!interaction.deferred) {
+                    await interaction.deferReply();
+                }
+    
+                if (interaction.commandName === 'biblioteca') {
+                    await biblioteca.execute(interaction);
+                } else if (interaction.commandName === 'recomendacao') {
+                    await handleRecomendacaoCommand(interaction);
+                } else if (interaction.commandName === 'autor') {
+                    await handleAutorCommand(interaction);
+                } else if (interaction.commandName === 'biblia') {
+                    await handleBibliaCommand(interaction);
+                }
             }
         } else if (interaction.isStringSelectMenu()) {
             // Adia a resposta para a interação do menu
@@ -191,10 +202,10 @@ module.exports = async (client, interaction) => {
     } catch (error) {
         console.error('Erro ao lidar com a interação:', error);
 
-        if (!interaction.replied && !interaction.deferred) {
-            await interaction.reply({ content: 'Ocorreu um erro ao processar sua solicitação.' });
-        } else if (interaction.deferred) {
-            await interaction.editReply({ content: 'Ocorreu um erro ao processar sua solicitação.' });
+        if (interaction.deferred || interaction.replied) {
+            await interaction.editReply('Ocorreu um erro ao processar sua solicitação.');
+        } else {
+            await interaction.reply('Ocorreu um erro ao processar sua solicitação.');
         }
     }
 };
