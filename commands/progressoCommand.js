@@ -16,10 +16,10 @@ module.exports = {
         const userId = interaction.user.id;
         const page = interaction.options.getInteger('pagina');
 
-        // Caminho para o arquivo JSON na nova pasta 'database'
+        // Caminho para o arquivo JSON
         const jsonPath = path.resolve(__dirname, '../database/readingProgress.json');
 
-        // Verifica se o arquivo existe, se não, cria uma estrutura inicial
+        // Verifica se o arquivo existe
         if (!fs.existsSync(jsonPath)) {
             fs.writeFileSync(jsonPath, JSON.stringify({ users: [] }, null, 2));
         }
@@ -34,19 +34,20 @@ module.exports = {
         } else {
             data.users.push({
                 userId: userId,
-                bookTitle: 'Livro Atual', // Substitua pelo título do livro atual
-                totalPages: 300, // Substitua pelo número total de páginas
+                bookTitle: 'Cartas de um Diabo a seu Aprendiz', // título do livro atual
+                totalPages: 208, // número total de páginas
                 currentPage: page,
                 lastUpdated: new Date(),
             });
         }
 
-        // Escreve as mudanças de volta no arquivo JSON
+        // Registra as mudanças de volta no arquivo JSON
         fs.writeFileSync(jsonPath, JSON.stringify(data, null, 2));
 
-        const progressPercent = Math.min((page / 300) * 100, 100).toFixed(2); // Substitua 300 pelo número total de páginas
+        const progressPercent = Math.min((page / 208) * 100, 100).toFixed(2); // número total de páginas
         const progressBar = `[${'#'.repeat(Math.floor(progressPercent / 10))}${'-'.repeat(10 - Math.floor(progressPercent / 10))}] ${progressPercent}%`;
 
-        await interaction.reply(`Seu progresso de leitura foi atualizado!\n${progressBar}`);
+        // Responde à interação
+        await interaction.editReply(`Seu progresso de leitura foi atualizado!\n${progressBar}`);
     }
 };

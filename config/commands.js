@@ -49,7 +49,7 @@ const commands = [
         options: [
             {
                 name: 'pagina',
-                type: 'INTEGER',
+                type: 4, // INTEGER
                 description: 'Número da página atual',
                 required: true,
             }
@@ -60,4 +60,5 @@ const commands = [
         description: 'Exibe o ranking de progresso de leitura',
     }
 ];
+
 module.exports = { commands };

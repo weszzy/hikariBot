@@ -1,6 +1,8 @@
 const { InteractionType, ActionRowBuilder, StringSelectMenuBuilder } = require('discord.js');
 const { handleRecomendacaoCommand } = require('../commands/recomendacaoCommand');
 const { handleAutorCommand } = require('../commands/autorCommand');
+const { execute: handleProgressoCommand } = require('../commands/progressoCommand');
+const { execute: handleRankCommand } = require('../commands/rankCommand');
 const { execute: handleBibliaCommand } = require('../commands/bibliaCommand'); // Correção aqui
 const biblioteca = require('../commands/biblioteca');
 const categories = require('../config/categories');
@@ -69,21 +71,31 @@ module.exports = async (client, interaction) => {
     try {
         if (interaction.type === InteractionType.ApplicationCommand) {
             // Adia a resposta para o comando, garantindo que só será feito uma vez
-            if (interaction.type === InteractionType.ApplicationCommand) {
-                // Verifique se a resposta já foi adiada
-                if (!interaction.deferred) {
-                    await interaction.deferReply();
-                }
-    
-                if (interaction.commandName === 'biblioteca') {
+            if (!interaction.deferred && !interaction.replied) {
+                await interaction.deferReply();
+            }
+
+            switch (interaction.commandName) {
+                case 'biblioteca':
                     await biblioteca.execute(interaction);
-                } else if (interaction.commandName === 'recomendacao') {
+                    break;
+                case 'recomendacao':
                     await handleRecomendacaoCommand(interaction);
-                } else if (interaction.commandName === 'autor') {
+                    break;
+                case 'autor':
                     await handleAutorCommand(interaction);
-                } else if (interaction.commandName === 'biblia') {
+                    break;
+                case 'biblia':
                     await handleBibliaCommand(interaction);
-                }
+                    break;
+                case 'progresso':
+                    await handleProgressoCommand(interaction);
+                    break;
+                case 'rank':
+                    await handleRankCommand(interaction);
+                    break;
+                default:
+                    await interaction.editReply('Comando não reconhecido.');
             }
         } else if (interaction.isStringSelectMenu()) {
             // Adia a resposta para a interação do menu
