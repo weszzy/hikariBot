@@ -34,7 +34,8 @@ O hikariBot foi desenvolvido para gerenciar uma biblioteca de livros em servidor
 - **Busca de Versículos da Bíblia**: Encontre versículos específicos utilizando API REST da Bíblia.
 - **Notificação automática**: O bot envia uma notificação automática que usa um "event" específico como trigger.
 - **Recomendação**: Obtenha recomendações de livros baseadas em categorias e palavras-chaves preestabelecidas.
-
+- **Registro de progresso**: Possibilita o usuário de registrar o progresso de leitura.
+- **Ranking**: Juntamente com o **Registro de progresso**, permite ao usuário ver um ranking de leitura com todos os membros participantes.
 
 ## 💻 Tecnologias
 
@@ -54,6 +55,8 @@ O bot possui os seguintes comandos que podem ser utilizados no Discord:
 - ***/recomendacao***: Envia uma recomendação aleatória de livro.
 - ***/autor***: Fornece informações sobre um autor com base no nome fornecido.
 - ***/biblia***: Busca um versículo específico da Bíblia, fornecendo livro, capítulo e versículo.
+- ***/progresso***: Permite ao usuário registrar seu progresso de leitura.
+- ***/rank***: Exibe um ranking com todos os progressos registrados.
 
 
 ## 📁 Estrutura do Projeto
@@ -64,24 +67,28 @@ O bot possui os seguintes comandos que podem ser utilizados no Discord:
 │   ├── autorCommand.js          # Comando para obter informações sobre um autor
 │   ├── bibliaCommand.js         # Comando para buscar versículos da Bíblia
 │   ├── biblioteca.js            # Comando principal para interação com a biblioteca
+│   ├── progressoCommand.js      # Comando que permite registrar progresso de leitura
+│   ├── rankCommand.js           # Comando para exibir o ranking de progresso
 │   ├── recomendacaoCommand.js   # Comando para enviar recomendações de livros
 │   └── recommendation.js        # Recomendação automática semanal de livros
 ├── 📂 config
 │   ├── categories.js            # Configurações das categorias e autores
 │   ├── commands.js              # Registro de comandos disponíveis
-│   └── livroAbreviacoes.js       # Mapeamento de abreviações de livros da Bíblia
+│   └── livroAbreviacoes.js      # Mapeamento de abreviações de livros da Bíblia
 ├── 📂 cache
 │   ├── recommendedBooksCache.json # Cache das recomendações de livros
-│   └── sharedLinksCache.json     # Cache dos links compartilháveis
+│   └── sharedLinksCache.json      # Cache dos links compartilháveis
+├── 📂 database
+│   ├── readingProgress.js         # Dados de progresso de leitura  
 ├── 📂 events
 │   ├── interactionCreate.js      # Manipulação das interações do bot
-│   ├── ready.js                 # Inicialização do bot
-│   └── voiceStateUpdate.js      # Notificações sobre mudanças de estado de voz
+│   ├── ready.js                  # Inicialização do bot
+│   └── voiceStateUpdate.js       # Notificações sobre mudanças de estado de voz
 ├── 📂 root
     ├── 📄 .env                       # Variáveis de ambiente (não incluído no repositório)
     ├── 📄 index.js                   # Inicialização do bot
     ├── 📄 app.js                     # Registro dos comandos usando a API do Discord
-    ├── 📄 package.json 
+    ├── 📄 LICENSE
     ├── 📄 package.json               # Dependências e scripts do projeto
     └── 📄 README.md                  # Documentação do projeto
 
