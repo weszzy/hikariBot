@@ -1,6 +1,8 @@
 const { InteractionType, ActionRowBuilder, StringSelectMenuBuilder } = require('discord.js');
 const { handleRecomendacaoCommand } = require('../commands/recomendacaoCommand');
 const { handleAutorCommand } = require('../commands/autorCommand');
+const { execute: handleProgressoCommand } = require('../commands/progressoCommand');
+const { execute: handleRankCommand } = require('../commands/rankCommand');
 const { execute: handleBibliaCommand } = require('../commands/bibliaCommand'); // Correção aqui
 const biblioteca = require('../commands/biblioteca');
 const categories = require('../config/categories');
@@ -83,6 +85,10 @@ module.exports = async (client, interaction) => {
                     await handleAutorCommand(interaction);
                 } else if (interaction.commandName === 'biblia') {
                     await handleBibliaCommand(interaction);
+                } else if (interaction.commandName === 'progresso') {
+                    await handleProgressoCommand(interaction);
+                } else if (interaction.commandName === 'rank') {
+                    await handleRankCommand(interaction);
                 }
             }
         } else if (interaction.isStringSelectMenu()) {
