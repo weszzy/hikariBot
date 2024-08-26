@@ -22,28 +22,31 @@ module.exports = {
             const userProgress = data.users.sort((a, b) => b.currentPage - a.currentPage).slice(0, 3);
             
             const embed = new EmbedBuilder()
-                .setColor('#0099ff')
-                .setTitle('📚🏆 Ranking de Progresso de Leitura 🏆📚')
+                .setColor('#FFD700')
+                .setTitle('🏆 Ranking de Progresso de Leitura 🏆')
                 .setDescription('Os 3 leitores mais dedicados:')
                 .setTimestamp()
                 .setFooter({ text: 'Atualize seu progresso para aparecer no ranking!' });
             
             for (let index = 0; index < userProgress.length; index++) {
                 const user = userProgress[index];
-                const medal = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : `${index + 1}.`;
+                const medal = index === 0 ? '🥇' : index === 1 ? '🥈' : '🥉';
                 const progressPercentage = Math.round((user.currentPage / user.totalPages) * 100);
                 const progressBar = createProgressBar(progressPercentage);
                 
-                // Busca o usuário no Discord
-                const discordUser = await interaction.client.users.fetch(user.userId).catch(() => null);
-                const userName = discordUser ? discordUser.username : 'Usuário Desconhecido';
+                // Busca o membro no servidor
+                const member = await interaction.guild.members.fetch(user.userId).catch(() => null);
+                const displayName = member ? member.displayName : 'Usuário Desconhecido';
                 
                 embed.addFields({
-                    name: `${medal} ${userName}`,
-                    value: `Página ${user.currentPage}/${user.totalPages} (${progressPercentage}%)\n${progressBar}`,
+                    name: `${medal} ${displayName}\n\n\n`, 
+                    value: `📖 **${user.bookTitle}**\n` +
+                           `📊 Progresso: \`${user.currentPage}/${user.totalPages}\` páginas (${progressPercentage}%)\n` +
+                           `${progressBar}\n`,
                     inline: false
                 });
             }
+            
             
             await interaction.editReply({ embeds: [embed] });
         } catch (error) {
@@ -54,9 +57,9 @@ module.exports = {
 };
 
 function createProgressBar(percentage) {
-    const filledChar = '█';
-    const emptyChar = '░';
-    const totalChars = 20;
+    const filledChar = '🟩';
+    const emptyChar = '⬜';
+    const totalChars = 10;
     const filledChars = Math.round((percentage / 100) * totalChars);
     const emptyChars = totalChars - filledChars;
     return filledChar.repeat(filledChars) + emptyChar.repeat(emptyChars);

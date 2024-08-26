@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const { EmbedBuilder } = require('discord.js');
 
 module.exports = {
     name: 'progresso',
@@ -28,14 +29,17 @@ module.exports = {
         const data = JSON.parse(fs.readFileSync(jsonPath, 'utf-8'));
         const userIndex = data.users.findIndex(user => user.userId === userId);
 
+        const bookTitle = 'Cartas de um Diabo a seu Aprendiz';
+        const totalPages = 208;
+
         if (userIndex !== -1) {
             data.users[userIndex].currentPage = page;
             data.users[userIndex].lastUpdated = new Date();
         } else {
             data.users.push({
                 userId: userId,
-                bookTitle: 'Cartas de um Diabo a seu Aprendiz', // título do livro atual
-                totalPages: 208, // número total de páginas
+                bookTitle: bookTitle,
+                totalPages: totalPages,
                 currentPage: page,
                 lastUpdated: new Date(),
             });
@@ -44,10 +48,33 @@ module.exports = {
         // Registra as mudanças de volta no arquivo JSON
         fs.writeFileSync(jsonPath, JSON.stringify(data, null, 2));
 
-        const progressPercent = Math.min((page / 208) * 100, 100).toFixed(2); // número total de páginas
-        const progressBar = `[${'#'.repeat(Math.floor(progressPercent / 10))}${'-'.repeat(10 - Math.floor(progressPercent / 10))}] ${progressPercent}%`;
+        const progressPercent = Math.min((page / totalPages) * 100, 100).toFixed(2);
+        const progressBar = createProgressBar(progressPercent);
+
+        const embed = new EmbedBuilder()
+            .setColor('#00ff00')
+            .setTitle('📚 Progresso de Leitura Atualizado! 📚')
+            .setDescription(`Seu progresso em "${bookTitle}" foi atualizado.`)
+            .addFields(
+                { name: 'Página Atual', value: `${page}/${totalPages}`, inline: true },
+                { name: 'Progresso', value: `${progressPercent}%`, inline: true },
+                { name: 'Barra de Progresso', value: progressBar },
+                { name: 'Páginas Restantes', value: `${totalPages - page}`, inline: true },
+                { name: 'Última Atualização', value: new Date().toLocaleString(), inline: true }
+            )
+            .setFooter({ text: 'Continue lendo! 🎉' })
+            .setTimestamp();
 
         // Responde à interação
-        await interaction.editReply(`Seu progresso de leitura foi atualizado!\n${progressBar}`);
+        await interaction.editReply({ embeds: [embed] });
     }
 };
+
+function createProgressBar (percentage) {
+    const filledChar = '🟩';
+    const emptyChar = '⬜';
+    const totalChars = 10;
+    const filledChars = Math.round((percentage / 100) * totalChars);
+    const emptyChars = totalChars - filledChars;
+    return filledChar.repeat(filledChars) + emptyChar.repeat(emptyChars);
+}
