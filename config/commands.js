@@ -5,7 +5,7 @@ const commands = [
     },
     {
         name: 'recomendacao',
-        description: 'Enviamos um livro aleatório',
+        description: 'Envia um livro aleatório',
     },
     {
         name: 'autor',
@@ -26,7 +26,7 @@ const commands = [
             {
                 name: 'livro',
                 type: 3, // STRING
-                description: 'O livro da Bíblia (ex: joão)',
+                description: 'O livro da Bíblia (ex: João)',
                 required: true,
             },
             {
@@ -49,7 +49,7 @@ const commands = [
         options: [
             {
                 name: 'pagina',
-                type: 'INTEGER',
+                type: 4, // INTEGER 
                 description: 'Número da página atual',
                 required: true,
             }
@@ -60,4 +60,5 @@ const commands = [
         description: 'Exibe o ranking de progresso de leitura',
     }
 ];
+
 module.exports = { commands };
