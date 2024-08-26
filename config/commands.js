@@ -42,7 +42,22 @@ const commands = [
                 required: true,
             },
         ],
+    },
+    {
+        name: 'progresso',
+        description: 'Registra o progresso de leitura do membro',
+        options: [
+            {
+                name: 'pagina',
+                type: 'INTEGER',
+                description: 'Número da página atual',
+                required: true,
+            }
+        ],
+    },
+    {
+        name: 'rank',
+        description: 'Exibe o ranking de progresso de leitura',
     }
 ];
-
 module.exports = { commands };
