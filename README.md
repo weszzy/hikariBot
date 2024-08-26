@@ -79,7 +79,7 @@ O bot possui os seguintes comandos que podem ser utilizados no Discord:
 │   ├── recommendedBooksCache.json # Cache das recomendações de livros
 │   └── sharedLinksCache.json      # Cache dos links compartilháveis
 ├── 📂 database
-│   ├── readingProgress.js         # Dados de progresso de leitura  
+│   ├── readingProgress.json         # Dados de progresso de leitura  
 ├── 📂 events
 │   ├── interactionCreate.js      # Manipulação das interações do bot
 │   ├── ready.js                  # Inicialização do bot
