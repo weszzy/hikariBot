@@ -1,0 +1,52 @@
+const fs = require('fs');
+const path = require('path');
+
+// Caminho para o arquivo JSON que armazenará as sugestões
+const jsonPath = path.resolve(__dirname, '../database/sugestoes.json');
+
+function lerSugestoes() {
+    if (!fs.existsSync(jsonPath)) {
+        fs.writeFileSync(jsonPath, JSON.stringify({ sugestoes: [] }, null, 2));
+    }
+
+    try {
+        const data = fs.readFileSync(jsonPath, 'utf-8');
+        return data ? JSON.parse(data) : { sugestoes: [] };
+    } catch (error) {
+        console.error('Erro ao ler o arquivo de sugestões:', error);
+        return { sugestoes: [] };
+    }
+}
+
+module.exports = {
+    name: 'listarsugestoes',
+    description: 'Lista todas as sugestões de livros',
+    async execute(interaction) {
+        try {
+            // Adia a resposta para garantir que só seja feita uma vez
+            if (!interaction.deferred && !interaction.replied) {
+                await interaction.deferReply();
+            }
+
+            const data = lerSugestoes();
+            const sugestoes = data.sugestoes || [];
+
+            if (sugestoes.length === 0) {
+                await interaction.editReply('Não há sugestões de livros no momento.');
+                return;
+            }
+
+            const sugestoesLista = sugestoes.map((s, index) => `${index + 1}. **${s.titulo}** - sugerido por ${s.userName}`).join('\n');
+
+            await interaction.editReply(`Aqui estão as sugestões de livros:\n\n${sugestoesLista}`);
+        } catch (error) {
+            console.error('Erro ao lidar com a interação:', error);
+
+            if (interaction.deferred || interaction.replied) {
+                await interaction.editReply('Ocorreu um erro ao processar sua solicitação.');
+            } else {
+                await interaction.reply('Ocorreu um erro ao processar sua solicitação.');
+            }
+        }
+    },
+};
