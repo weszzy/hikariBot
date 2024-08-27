@@ -3,7 +3,10 @@ const { handleRecomendacaoCommand } = require('../commands/recomendacaoCommand')
 const { handleAutorCommand } = require('../commands/autorCommand');
 const { execute: handleProgressoCommand } = require('../commands/progressoCommand');
 const { execute: handleRankCommand } = require('../commands/rankCommand');
-const { execute: handleBibliaCommand } = require('../commands/bibliaCommand'); // Correção aqui
+const { execute: handleBibliaCommand } = require('../commands/bibliaCommand');
+const { execute: handleSugestaoCommand } = require('../commands/sugestaoCommand');
+const { execute: handleListarSugestoesCommand } = require('../commands/listarsugestoesCommand');
+const { execute: handleSortearLivrosCommand } = require('../commands/sortearlivrosCommand');
 const biblioteca = require('../commands/biblioteca');
 const categories = require('../config/categories');
 const { google } = require('googleapis');
@@ -93,6 +96,15 @@ module.exports = async (client, interaction) => {
                     break;
                 case 'rank':
                     await handleRankCommand(interaction);
+                    break;
+                case 'addsugestao':
+                    await handleSugestaoCommand(interaction);
+                    break;
+                case 'listarsugestoes':
+                    await handleListarSugestoesCommand(interaction);
+                    break;
+                case 'sortearlivros':
+                    await handleSortearLivrosCommand(interaction);
                     break;
                 default:
                     await interaction.editReply('Comando não reconhecido.');
