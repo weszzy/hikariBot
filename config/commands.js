@@ -58,6 +58,26 @@ const commands = [
     {
         name: 'rank',
         description: 'Exibe o ranking de progresso de leitura',
+    },
+    {
+        name: 'addsugestao',
+        description: 'Adiciona uma sugestão de livro',
+        options: [
+            {
+                name: 'livro',
+                type: 3, // STRING
+                description: 'Nome do livro sugerido',
+                required: true,
+            }
+        ],
+    },
+    {
+        name: 'listarsugestoes',
+        description: 'Lista todas as sugestões de livros',
+    },
+    {
+        name: 'sortearlivros',
+        description: 'Sorteia um livro da lista de sugestões',
     }
 ];
 
