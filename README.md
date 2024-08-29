@@ -57,6 +57,10 @@ O bot possui os seguintes comandos que podem ser utilizados no Discord:
 - ***/biblia***: Busca um versículo específico da Bíblia, fornecendo livro, capítulo e versículo.
 - ***/progresso***: Permite ao usuário registrar seu progresso de leitura.
 - ***/rank***: Exibe um ranking com todos os progressos registrados.
+- ***/addsugestao***: Permite que o usuário adicione uma sugestão de livro na lista do servidor.
+- ***/listarsugestoes***: Envia a lista de sugestões.
+- ***/sortearlivros***: Sorteia um livro da lista de sugestões.
+
 
 
 ## 📁 Estrutura do Projeto
@@ -64,28 +68,32 @@ O bot possui os seguintes comandos que podem ser utilizados no Discord:
 ```
 📂 hikariBot
 ├── 📂 commands
-│   ├── autorCommand.js          # Comando para obter informações sobre um autor
-│   ├── bibliaCommand.js         # Comando para buscar versículos da Bíblia
-│   ├── biblioteca.js            # Comando principal para interação com a biblioteca
-│   ├── progressoCommand.js      # Comando que permite registrar progresso de leitura
-│   ├── rankCommand.js           # Comando para exibir o ranking de progresso
-│   ├── recomendacaoCommand.js   # Comando para enviar recomendações de livros
-│   └── recommendation.js        # Recomendação automática semanal de livros
+│   ├── autorCommand.js           # Comando para obter informações sobre um autor
+│   ├── bibliaCommand.js          # Comando para buscar versículos da Bíblia
+│   ├── biblioteca.js             # Comando principal para interação com a biblioteca
+│   ├── listarsugestoesCommand.js # Comando para listar as sugestões feitas por membros
+│   ├── progressoCommand.js       # Comando que permite registrar progresso de leitura
+│   ├── rankCommand.js            # Comando para exibir o ranking de progresso
+│   ├── recomendacaoCommand.js    # Comando para enviar recomendações de livros
+│   ├── recommendation.js         # Recomendação automática semanal de livros
+│   ├── sortearlivrosCommand.js   # Comando para sortear um livro da lista
+│   └── sugestaoCommand.js        # Comando para adicionar um livro à lista
 ├── 📂 config
-│   ├── categories.js            # Configurações das categorias e autores
-│   ├── commands.js              # Registro de comandos disponíveis
-│   └── livroAbreviacoes.js      # Mapeamento de abreviações de livros da Bíblia
+│   ├── categories.js             # Configurações das categorias e autores
+│   ├── commands.js               # Registro de comandos disponíveis
+│   └── livroAbreviacoes.js       # Mapeamento de abreviações de livros da Bíblia
 ├── 📂 cache
 │   ├── recommendedBooksCache.json # Cache das recomendações de livros
 │   └── sharedLinksCache.json      # Cache dos links compartilháveis
 ├── 📂 database
-│   ├── readingProgress.json         # Dados de progresso de leitura  
+│   ├── readingProgress.json         # Dados de progresso de leitura 
+│   └── sugestao.json                # Dados da lista de sugestões  
 ├── 📂 events
 │   ├── interactionCreate.js      # Manipulação das interações do bot
 │   ├── ready.js                  # Inicialização do bot
-│   └── voiceStateUpdate.js       # Notificações sobre mudanças de estado de voz
+│   └── voiceStateUpdate.js       # Notificações sobre o canal de voz
 ├── 📂 root
-    ├── 📄 .env                       # Variáveis de ambiente (não incluído no repositório)
+    ├── 📄 .env                       # Variáveis de ambiente (não estão no repo)
     ├── 📄 index.js                   # Inicialização do bot
     ├── 📄 app.js                     # Registro dos comandos usando a API do Discord
     ├── 📄 LICENSE
