@@ -36,6 +36,9 @@ O hikariBot foi desenvolvido para gerenciar uma biblioteca de livros em servidor
 - **Recomendação**: Obtenha recomendações de livros baseadas em categorias e palavras-chaves preestabelecidas.
 - **Registro de progresso**: Possibilita o usuário de registrar o progresso de leitura.
 - **Ranking**: Juntamente com o **Registro de progresso**, permite ao usuário ver um ranking de leitura com todos os membros participantes.
+- **Adicionar sugestões**: Possibilita que os membros do servidor adicionem sugestões de livros à uma lista.
+- **Listar sugestões**: Permite que os membros vejam todas as sugestões de livros enviadas.
+- **Sortear sugestões**: Sorteia um livro aleatório da lista de sugestões.
 
 ## 💻 Tecnologias
 
