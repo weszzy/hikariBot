@@ -26,42 +26,42 @@ O hikariBot foi desenvolvido para gerenciar uma biblioteca de livros em servidor
 
 ## 🚀 Funcionalidades
 
-- **Exploração de Livros por Categoria e Autor**: Usuários podem explorar categorias de livros, escolher um autor específico e visualizar todos os livros disponíveis desse autor.
-- **Links Compartilháveis**: Geração automática de links compartilháveis para download ou leitura direta dos livros no Google Drive.
-- **Cache de Links**: Otimização do desempenho com cache local para links compartilháveis, evitando a geração repetida e desnecessária de links.
+- **Exploração de Livros por Categoria e Autor**: Navegue pelas categorias de livros, escolha seu autor e veja todos os livros disponíveis desse autor.
+- **Links Compartilháveis**: Gere links para baixar ou ler os livros direto no Google Drive, sem complicação.
+- **Cache de Links**: O bot guarda os links gerados para não precisar criar de novo toda hora.
 - **Sistema de Menu Interativo**: Interface de seleção baseada em menus interativos no Discord para uma navegação intuitiva e simples.
-- **Informações sobre Autores**: Obtenha resumos e informações sobre autores utilizando a Wikipedia API.
-- **Busca de Versículos da Bíblia**: Encontre versículos específicos utilizando API REST da Bíblia.
-- **Notificação automática**: O bot envia uma notificação automática que usa um "event" específico como trigger.
+- **Informações sobre Autores**: Quer saber mais sobre algum autor? O bot usa a API da Wikipedia para te dar um resumo rápido.
+- **Busca de Versículos da Bíblia**: Encontre aquele versículo específico rapidinho com a ajuda da API da Bíblia.
+- **Notificação automática**: O bot manda notificações automáticas quando o ```Apresentador``` entra no canal de voz.
 - **Recomendação**: Obtenha recomendações de livros baseadas em categorias e palavras-chaves preestabelecidas.
-- **Registro de progresso**: Possibilita o usuário de registrar o progresso de leitura.
-- **Ranking**: Juntamente com o **Registro de progresso**, permite ao usuário ver um ranking de leitura com todos os membros participantes.
-- **Adicionar sugestões**: Possibilita que os membros do servidor adicionem sugestões de livros à uma lista.
-- **Listar sugestões**: Permite que os membros vejam todas as sugestões de livros enviadas.
-- **Sortear sugestões**: Sorteia um livro aleatório da lista de sugestões.
+- **Registro de progresso**: Marque seu progresso de leitura e acompanhe sua evolução.
+- **Ranking**: Veja quem está lendo mais no seu servidor e dispute posições com seus amigos!
+- **Adicionar sugestões**: Adicione suas sugestões de livros e ajude a criar uma lista colaborativa.
+- **Listar sugestões**: Confira todas as sugestões de livros feitas pelos membros do servidor.
+- **Sortear sugestões**: Deixe a sorte escolher o próximo livro da lista para ler!
 
 ## 💻 Tecnologias
 
-- **Node.js**: Ambiente de execução para JavaScript no lado do servidor.
-- **Discord.js**: Biblioteca para interagir com a API do Discord.
+- **Node.js**:  O motor que roda o bot no servidor.
+- **Discord.js**: A biblioteca que faz o bot interagir com o Discord.
 - **Google Drive API**: Utilizada para acessar e gerenciar os arquivos no Google Drive.
-- **Google Books API**: Buscar informações de livros e enviar recomendações.
+- **Google Books API**: Busca informações de livros e sugere novas leituras.
 - **Wikipedia API**: Para buscar informações sobre autores.
-- **API REST da Bíblia**: Busca qualquer versículo bíblico rápido e fácil.
-- **dotenv**: Para o gerenciamento seguro das variáveis de ambiente.
+- **API REST da Bíblia**: Para encontrar versículos bíblicos com rapidez.
+- **dotenv**: Para manter as variáveis de ambiente seguras e organizadas.
 
 ## 📜 Comandos Disponíveis
 
 O bot possui os seguintes comandos que podem ser utilizados no Discord:
 
-- ***/biblioteca***: Mostra uma lista de categorias de livros disponíveis e permite a seleção de um autor.
-- ***/recomendacao***: Envia uma recomendação aleatória de livro.
-- ***/autor***: Fornece informações sobre um autor com base no nome fornecido.
-- ***/biblia***: Busca um versículo específico da Bíblia, fornecendo livro, capítulo e versículo.
-- ***/progresso***: Permite ao usuário registrar seu progresso de leitura.
-- ***/rank***: Exibe um ranking com todos os progressos registrados.
-- ***/addsugestao***: Permite que o usuário adicione uma sugestão de livro na lista do servidor.
-- ***/listarsugestoes***: Envia a lista de sugestões.
+- ***/biblioteca***: Mostra as categorias de livros disponíveis e permite escolher um autor.
+- ***/recomendacao***: Sugere um livro aleatório para você ler.
+- ***/autor***: Dá informações sobre um autor com base no nome fornecido.
+- ***/biblia***: Encontra um versículo específico da Bíblia.
+- ***/progresso***: Permite registrar seu progresso de leitura.
+- ***/rank***: Exibe o ranking de leitura entre os membros.
+- ***/addsugestao***: Adiciona uma sugestão de livro à lista do servidor.
+- ***/listarsugestoes***: Mostra todas as sugestões de livros.
 - ***/sortearlivros***: Sorteia um livro da lista de sugestões.
 
 
