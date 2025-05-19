@@ -26,12 +26,12 @@
 ## Sumário
 
 *   [Sobre o Projeto](#sobre-o-projeto)
-*   [Funcionalidades Principais](#-funcionalidades-principais)
-*   [Tecnologias Utilizadas](#-tecnologias-utilizadas)
-*   [Comandos](#-comandos)
-*   [Detalhes do Desenvolvimento](#️-detalhes-do-desenvolvimento)
-*   [Licença](#-licença)
-*   [Contato](#-contato)
+*   [Funcionalidades Principais](#funcionalidades-principais)
+*   [Tecnologias Utilizadas](#tecnologias-utilizadas)
+*   [Comandos](#comandos)
+*   [Detalhes do Desenvolvimento](#detalhes-do-desenvolvimento)
+*   [Licença](#licença)
+*   [Contato](#contato)
 
 ## Sobre o Projeto
 
