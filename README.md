@@ -119,5 +119,4 @@ Este projeto está licenciado sob a Licença MIT. Veja o arquivo [LICENSE](LICEN
 [![G-mail](https://skillicons.dev/icons?i=gmail)](mailto:danielwcontato@gmail.com)
 [![Instagram](https://skillicons.dev/icons?i=instagram)](https://www.instagram.com/weszzy/)
 [![Discord](https://skillicons.dev/icons?i=discord)](http://discordapp.com/users/410553521105010688)
-
 </div>
