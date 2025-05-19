@@ -4,17 +4,6 @@
 
 # 📚 hikariBot 
 
-
-</div>
-
-<br>
-
-<div align="center">
-
-# hikariBot: Assistente Literário para Clubes do Livro no Discord
-
-hikariBot é um bot para Discord projetado para enriquecer a experiência de clubes do livro e comunidades literárias. Ele oferece um conjunto robusto de funcionalidades para gerenciar bibliotecas de livros, facilitar discussões, promover o engajamento e ajudar os membros a descobrir novas leituras.
-
 <img src="https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E">
 <img src="https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white">
 <img src="https://img.shields.io/badge/Discord-7289DA?style=for-the-badge&logo=discord&logoColor=white">
