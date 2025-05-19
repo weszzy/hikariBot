@@ -4,6 +4,17 @@
 
 # 📚 hikariBot 
 
+
+</div>
+
+<br>
+
+<div align="center">
+
+# hikariBot: Assistente Literário para Clubes do Livro no Discord
+
+hikariBot é um bot para Discord projetado para enriquecer a experiência de clubes do livro e comunidades literárias. Ele oferece um conjunto robusto de funcionalidades para gerenciar bibliotecas de livros, facilitar discussões, promover o engajamento e ajudar os membros a descobrir novas leituras.
+
 <img src="https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E">
 <img src="https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white">
 <img src="https://img.shields.io/badge/Discord-7289DA?style=for-the-badge&logo=discord&logoColor=white">
@@ -13,104 +24,100 @@
 <img src="https://i.imgur.com/dQ9cEjM.png" height="27px">
 </div>
 
-<br>
-
-<div align="center">
-
-O hikariBot foi desenvolvido para gerenciar uma biblioteca de livros em servidores Discord. Permite explorar diversos livros disponíveis, além de outras funções como recomendações, bíblia e informações sobre autores.
-
-</div>
 
 
 
 
-## 🚀 Funcionalidades
 
-- **Exploração de Livros por Categoria e Autor**: Navegue pelas categorias de livros, escolha seu autor e veja todos os livros disponíveis desse autor.
-- **Links Compartilháveis**: Gere links para baixar ou ler os livros direto no Google Drive, sem complicação.
-- **Cache de Links**: O bot guarda os links gerados para não precisar criar de novo toda hora.
-- **Sistema de Menu Interativo**: Interface de seleção baseada em menus interativos no Discord para uma navegação intuitiva e simples.
-- **Informações sobre Autores**: Quer saber mais sobre algum autor? O bot usa a API da Wikipedia para te dar um resumo rápido.
-- **Busca de Versículos da Bíblia**: Encontre aquele versículo específico rapidinho com a ajuda da API da Bíblia.
-- **Notificação automática**: O bot manda notificações automáticas quando o ```Apresentador``` entra no canal de voz.
-- **Recomendação**: Obtenha recomendações de livros baseadas em categorias e palavras-chaves preestabelecidas.
-- **Registro de progresso**: Marque seu progresso de leitura e acompanhe sua evolução.
-- **Ranking**: Veja quem está lendo mais no seu servidor e dispute posições com seus amigos!
-- **Adicionar sugestões**: Adicione suas sugestões de livros e ajude a criar uma lista colaborativa.
-- **Listar sugestões**: Confira todas as sugestões de livros feitas pelos membros do servidor.
-- **Sortear sugestões**: Deixe a sorte escolher o próximo livro da lista para ler!
+## Sumário
 
-## 💻 Tecnologias
+*   [Sobre o Projeto](#sobre-o-projeto)
+*   [Funcionalidades Principais](#-funcionalidades-principais)
+*   [Tecnologias Utilizadas](#-tecnologias-utilizadas)
+*   [Comandos](#-comandos)
+*   [Detalhes do Desenvolvimento](#️-detalhes-do-desenvolvimento)
+*   [Licença](#-licença)
+*   [Contato](#-contato)
 
-- **Node.js**:  O motor que roda o bot no servidor.
-- **Discord.js**: A biblioteca que faz o bot interagir com o Discord.
-- **Google Drive API**: Utilizada para acessar e gerenciar os arquivos no Google Drive.
-- **Google Books API**: Busca informações de livros e sugere novas leituras.
-- **Wikipedia API**: Para buscar informações sobre autores.
-- **API REST da Bíblia**: Para encontrar versículos bíblicos com rapidez.
-- **dotenv**: Para manter as variáveis de ambiente seguras e organizadas.
+## Sobre o Projeto
 
-## 📜 Comandos Disponíveis
+O HikariBot nasceu da necessidade de centralizar e facilitar a gestão de livros e atividades relacionadas a um clube do livro no Discord. Ele visa automatizar tarefas, prover informações relevantes e criar uma experiência interativa para os amantes da leitura.
 
-O bot possui os seguintes comandos que podem ser utilizados no Discord:
+## Funcionalidades Principais
 
-- ***/biblioteca***: Mostra as categorias de livros disponíveis e permite escolher um autor.
-- ***/recomendacao***: Sugere um livro aleatório para você ler.
-- ***/autor***: Dá informações sobre um autor com base no nome fornecido.
-- ***/biblia***: Encontra um versículo específico da Bíblia.
-- ***/progresso***: Permite registrar seu progresso de leitura.
-- ***/rank***: Exibe o ranking de leitura entre os membros.
-- ***/addsugestao***: Adiciona uma sugestão de livro à lista do servidor.
-- ***/listarsugestoes***: Mostra todas as sugestões de livros.
-- ***/sortearlivros***: Sorteia um livro da lista de sugestões.
+*    **Exploração Detalhada da Biblioteca:**
+    *   Navegue por categorias de livros pré-definidas.
+    *   Filtre livros por autor e visualize todas as obras disponíveis de um autor específico.
+*    **Acesso Fácil a Livros Digitais:**
+    *   Gere links diretos para download ou leitura de livros armazenados no Google Drive.
+    *   **Cache de Links:** Links gerados são armazenados em cache para otimizar o desempenho e evitar recriações desnecessárias.
+*    **Interface Intuitiva com Menus Interativos:**
+    *   Utiliza os componentes de interface do Discord (menus de seleção, botões) para uma navegação simples e amigável.
+*    **Informações sobre Autores:**
+    *   Obtenha resumos biográficos e informações sobre autores utilizando a API da Wikipedia.
+*    **Busca de Versículos Bíblicos:**
+    *   Encontre rapidamente versículos específicos da Bíblia através de uma API dedicada.
+*    **Notificações de Eventos:**
+    *   Notifica automaticamente os membros quando um usuário designado como "Apresentador" (ou líder da discussão) entra em um canal de voz específico.
+*    **Recomendações Inteligentes:**
+    *   Receba sugestões de livros baseadas em categorias e palavras-chave preestabelecidas, utilizando a Google Books API.
+    *   Inclui um sistema de recomendação automática semanal.
+*    **Acompanhamento de Leitura e Gamificação:**
+    *   **Registro de Progresso:** Permite que os membros marquem seu progresso de leitura em livros específicos.
+    *   **Ranking de Leitores:** Exibe um ranking dos membros que mais leram, incentivando a participação.
+*    **Gerenciamento Colaborativo de Sugestões:**
+    *   **Adicionar Sugestões:** Membros podem sugerir novos livros para a biblioteca do clube.
+    *   **Listar Sugestões:** Visualize todas as sugestões de livros feitas pela comunidade.
+    *   **Sortear Sugestões:** Realize sorteios para escolher o próximo livro a ser lido a partir da lista de sugestões.
 
 
+## Tecnologias Utilizadas
 
-## 📁 Estrutura do Projeto
+*   **Node.js:** Ambiente de execução JavaScript no lado do servidor.
+*   **Discord.js:** Biblioteca principal para interação com a API do Discord.
+*   **Google Drive API:** Para acessar e gerenciar arquivos de livros no Google Drive.
+*   **Google Books API:** Para buscar informações de livros e enriquecer as recomendações.
+*   **Wikipedia API:** Para fornecer informações contextuais sobre autores.
+*   **API REST da Bíblia (Bible API):** Para consulta rápida de versículos bíblicos.
+*   **`dotenv`:** Para gerenciar variáveis de ambiente de forma segura.
+*   **JSON:** Utilizado para armazenamento leve de dados como cache, progresso de leitura e sugestões.
 
-```
-📂 hikariBot
-├── 📂 commands
-│   ├── autorCommand.js           # Comando para obter informações sobre um autor
-│   ├── bibliaCommand.js          # Comando para buscar versículos da Bíblia
-│   ├── biblioteca.js             # Comando principal para interação com a biblioteca
-│   ├── listarsugestoesCommand.js # Comando para listar as sugestões feitas por membros
-│   ├── progressoCommand.js       # Comando que permite registrar progresso de leitura
-│   ├── rankCommand.js            # Comando para exibir o ranking de progresso
-│   ├── recomendacaoCommand.js    # Comando para enviar recomendações de livros
-│   ├── recommendation.js         # Recomendação automática semanal de livros
-│   ├── sortearlivrosCommand.js   # Comando para sortear um livro da lista
-│   └── sugestaoCommand.js        # Comando para adicionar um livro à lista
-├── 📂 config
-│   ├── categories.js             # Configurações das categorias e autores
-│   ├── commands.js               # Registro de comandos disponíveis
-│   └── livroAbreviacoes.js       # Mapeamento de abreviações de livros da Bíblia
-├── 📂 cache
-│   ├── recommendedBooksCache.json # Cache das recomendações de livros
-│   └── sharedLinksCache.json      # Cache dos links compartilháveis
-├── 📂 database
-│   ├── readingProgress.json         # Dados de progresso de leitura 
-│   └── sugestao.json                # Dados da lista de sugestões  
-├── 📂 events
-│   ├── interactionCreate.js      # Manipulação das interações do bot
-│   ├── ready.js                  # Inicialização do bot
-│   └── voiceStateUpdate.js       # Notificações sobre o canal de voz
-├── 📂 root
-    ├── 📄 .env                       # Variáveis de ambiente (não estão no repo)
-    ├── 📄 index.js                   # Inicialização do bot
-    ├── 📄 app.js                     # Registro dos comandos usando a API do Discord
-    ├── 📄 LICENSE
-    ├── 📄 package.json               # Dependências e scripts do projeto
-    └── 📄 README.md                  # Documentação do projeto
 
-```
+## Comandos
+
+O HikariBot responde a comandos de barra (slash commands) no Discord:
+
+*   `/biblioteca`: Exibe as categorias de livros disponíveis. Permite selecionar uma categoria e, em seguida, um autor para listar seus livros.
+*   `/recomendacao`: Sugere um livro aleatório para leitura, podendo ser filtrado por categorias ou palavras-chave.
+*   `/autor [nome do autor]`: Fornece informações biográficas sobre o autor especificado, obtidas da Wikipedia.
+*   `/biblia [livro] [capítulo:versículo(s)]`: Busca e exibe o versículo ou intervalo de versículos bíblicos especificado.
+*   `/progresso`: Permite registrar e atualizar seu progresso de leitura em um livro.
+*   `/rank`: Exibe o ranking de leitura dos membros do servidor.
+*   `/addsugestao [nome do livro] [autor (opcional)]`: Adiciona uma sugestão de livro à lista colaborativa do servidor.
+*   `/listarsugestoes`: Mostra todas as sugestões de livros feitas pelos membros.
+*   `/sortearlivros`: Sorteia um livro da lista de sugestões para ser o próximo a ser lido.
+
+
+## Detalhes do Desenvolvimento
+
+O desenvolvimento do HikariBot foi focado em modularidade e na utilização eficiente das APIs do Discord e de serviços externos.
+
+*   **Arquitetura de Comandos:** Utiliza o sistema de comandos de barra (slash commands) do Discord, com cada comando encapsulado em seu próprio módulo dentro da pasta `commands/`.
+*   **Manipulação de Eventos:** Eventos do Discord como `ready`, `interactionCreate` e `voiceStateUpdate` são gerenciados em módulos dedicados na pasta `events/`, permitindo uma lógica organizada para diferentes interações e gatilhos.
+*   **Integração com APIs Externas:** O bot consome diversas APIs (Google Drive, Google Books, Wikipedia, Bible API) para fornecer funcionalidades ricas e dinâmicas. O tratamento de respostas e erros dessas APIs é uma parte crucial da lógica.
+*   **Cache:** Para otimizar o desempenho e reduzir o número de chamadas a APIs externas (especialmente Google Drive), um sistema de cache simples baseado em arquivos JSON foi implementado para links compartilháveis e recomendações.
+*   **Persistência de Dados:** Dados como progresso de leitura e sugestões de livros são armazenados em arquivos JSON na pasta `database/`.
+*   **Configuração:** A configuração principal, como categorias de livros e mapeamentos, é centralizada na pasta `config/`, facilitando a personalização do bot para diferentes bibliotecas e preferências.
 
 ## 📝 Licença
 
- 
-Licenciado sob a **[Licença MIT](https://github.com/weszzy/hikariBot/blob/main/LICENSE)**. 
+Este projeto está licenciado sob a Licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
 
-Sinta-se livre para usá-lo e modificá-lo conforme necessário.
+## Contato
+<div align="center">
 
+[![G-mail](https://skillicons.dev/icons?i=gmail)](mailto:danielwcontato@gmail.com)
+[![Instagram](https://skillicons.dev/icons?i=instagram)](https://www.instagram.com/weszzy/)
+[![Discord](https://skillicons.dev/icons?i=discord)](http://discordapp.com/users/410553521105010688)
 
-
+</div>
