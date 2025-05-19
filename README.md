@@ -2,7 +2,12 @@
 
 <img height="180" alt="hikariBot's logo" src="https://i.imgur.com/SwQu4DR.jpg">
 
+
+
+
 # 📚 hikariBot 
+
+[![wakatime](https://wakatime.com/badge/user/bdeb95f3-d0ba-450e-bb85-f5c3aa2006a7/project/be0c4a67-6123-42e1-8973-fd1a24bd4531.svg)](https://wakatime.com/badge/user/bdeb95f3-d0ba-450e-bb85-f5c3aa2006a7/project/be0c4a67-6123-42e1-8973-fd1a24bd4531)
 
 <img src="https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E">
 <img src="https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white">
@@ -98,7 +103,7 @@ O desenvolvimento do HikariBot foi focado em modularidade e na utilização efic
 *   **Persistência de Dados:** Dados como progresso de leitura e sugestões de livros são armazenados em arquivos JSON na pasta `database/`.
 *   **Configuração:** A configuração principal, como categorias de livros e mapeamentos, é centralizada na pasta `config/`, facilitando a personalização do bot para diferentes bibliotecas e preferências.
 
-## 📝 Licença
+## Licença
 
 Este projeto está licenciado sob a Licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
 
